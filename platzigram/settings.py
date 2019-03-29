@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'jgh7aat7*wm%v%sn$@*txr*$lei9&9e%+12&^)xml2d)w#m7dm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#Variable que marca que el proyecto esta en desarrollo, se recomienda ponerlo a true cuando se hace produccion
+#Variable que marca que el proyecto esta en desarrollo, se recomienda ponerlo a false cuando se hace produccion
 DEBUG = True
 
 # Que host estan permitidos interactuar con nuestro proyecto
