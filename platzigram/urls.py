@@ -15,14 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from platzigram import views
+from platzigram import views as local_views
+from posts import views as post_views
 # from django.http import HttpResponse
 # funcion que sirve como vista, migraremos la funcion a un archivo views
 # def hello_world (request):
 #     return HttpResponse('Hello-wold!')
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('hello-world/',views.hello_world),
-    path('sorted/',views.sorted_numbers),
-    path('hi/<str:name>/<int:edad>/',views.hi)
+    path('hello-world/', local_views.hello_world),
+
+    # Con esta vista le mandamos un variable  de tipo GET como parametro que esta dentro del objeto request
+    path('sorted/', local_views.sorted_numbers),
+
+    # Mandamos 2 variables diferentes valores fuera del objeto request, para crear la vista se deben colocar los parametros de entrada del request, name y la edad por separado
+    path('hi1/<str:name>/<int:edad>/', local_views.hi),
+    path('posts/',post_views.list_posts),
 ]
