@@ -29,4 +29,6 @@ class user(models.Model):
         # auto_now: Almacena los datos cuando se modifico por ultima vez
     modified=models.DateTimeField(auto_now=True)
 
+    def __str__(self):      
+        return self.email
 
