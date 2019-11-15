@@ -1,5 +1,4 @@
 """platzigram URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
@@ -22,7 +21,7 @@ from posts import views as post_views
 # def hello_world (request):
 #     return HttpResponse('Hello-wold!')
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('hello-world/', local_views.hello_world),
 
     # Con esta vista le mandamos un variable  de tipo GET como parametro que esta dentro del objeto request
