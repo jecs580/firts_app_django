@@ -132,3 +132,10 @@ USE_TZ = True
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
     # Va a buscar el archivo estatico que se requiere
 STATIC_URL = '/static/'
+
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
+# colocamos la ruta del proyecto, podemos hacerlo con las diagonales pero esto no servira si cambiamos la ruta del proyecto, la solucion es hacerlo de la misma forma que django busa la ruta de la base de datos de sqllite.
+# Esta variable lo que hace es crear un folder con el nombre de le dimos, y adentro tendra crear una ruta igual  ala q creamos donde guardabamos las images (En se almacenaran 2 veces las imagenes una con la  ruta original y la otra para poder verlas desde el admin site)
+#La variable 'media' es un folder que se creara automaticamente despues de ejecutarlo con runserver
+
+MEDIA_URL= '/media/'

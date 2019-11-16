@@ -17,4 +17,4 @@ class Post(models.Model):
 
     def __str__(self):
         # Se puede modificar la forma de como nos devolvera las consultas, enviando una cadena 0-0
-        return '{} por @'.format(self.title, self.user.username)
+        return '{} por @ {}'.format(self.title, self.user.username)
