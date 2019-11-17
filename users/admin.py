@@ -25,7 +25,7 @@ class ProfileAdmin(admin.ModelAdmin):
     # Si colocas created, modified django lo sobre-entiende que es un campo de fecha y mostrar muchas opciones de filtrado por fechas
     list_filter=('user__is_active','user__is_staff','created','modified')
 
-    #Variable para que customiza el detalle de un elemento de tu apliacacion
+    #Variable para que customiza el detalle de un elemento de tu aplicacion
     fieldsets=(
         (
             'Profile',{

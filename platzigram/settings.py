@@ -132,3 +132,6 @@ USE_TZ = True
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
     # Va a buscar el archivo estatico que se requiere
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # El media_root requiere que le demos la ruta donde esta alojado el proyecto seguido del directorio donde se almacenara los archivos. Para ayuda de los desarrolladores se usa el "os.path.join" esto permita que django traiga el valor de donde esta alojado el proyecto, sin impotar si lo movemos
+MEDIA_URL = '/media/'

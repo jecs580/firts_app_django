@@ -16,6 +16,12 @@ from django.contrib import admin
 from django.urls import path
 from platzigram import views as local_views
 from posts import views as post_views
+
+# Importaciones para el Hack para ver las imagenes desde el admin
+from django.conf import settings
+from django.conf.urls.static import static
+
+
 # from django.http import HttpResponse
 # funcion que sirve como vista, migraremos la funcion a un archivo views
 # def hello_world (request):
@@ -30,4 +36,7 @@ urlpatterns = [
     # Mandamos 2 variables diferentes valores fuera del objeto request, para crear la vista se deben colocar los parametros de entrada del request, name y la edad por separado
     path('hi1/<str:name>/<int:edad>/', local_views.hi),
     path('posts/',post_views.list_posts),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Este es una extension para que podamos ver las imagenes guardadas desde el admin:
+# el Media_Url: indica la path en el caso que fuera un archivo
+# El Media_Root: Es una ruta que le damos para que nos los guarde los archivos, aparte de los que ya tienen 
