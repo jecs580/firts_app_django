@@ -1,4 +1,6 @@
 from django.contrib import admin
+'''TO DO: regitrar post en el administrador ''' 
+
 
 from posts.models import Post
 from django.contrib.auth.models import User

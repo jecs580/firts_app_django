@@ -17,10 +17,11 @@ from django.urls import path
 from platzigram import views as local_views
 from posts import views as post_views
 
-# Importaciones para el Hack para ver las imagenes desde el admin
-from django.conf import settings
+# Import para hacer el hack de ver las imagenes desde el admin
 from django.conf.urls.static import static
+from django.conf import settings
 
+'''Lo que hace es: Le suma a urlpatterns  una URL estatica con el valor de la media que tenemos y donde estamos parados en la media'''
 
 # from django.http import HttpResponse
 # funcion que sirve como vista, migraremos la funcion a un archivo views
