@@ -12,7 +12,16 @@ media/
 *.jif
 *.jfif
 *.jfi
-
+#DATA BASE
+db.sqlite3
+bootstrap.min.css
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
 # JPEG 2000
 *.jp2
 *.j2k

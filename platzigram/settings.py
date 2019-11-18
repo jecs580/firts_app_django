@@ -64,7 +64,9 @@ ROOT_URLCONF = 'platzigram.urls'
 TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [
+                os.path.join(BASE_DIR, 'templates')
+            ],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -132,6 +134,13 @@ USE_TZ = True
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
     # Va a buscar el archivo estatico que se requiere
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+   os.path.join(BASE_DIR,'static'),
+]
+STATICFILES_FINDERS=[
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 # colocamos la ruta del proyecto, podemos hacerlo con las diagonales pero esto no servira si cambiamos la ruta del proyecto, la solucion es hacerlo de la misma forma que django busa la ruta de la base de datos de sqllite.

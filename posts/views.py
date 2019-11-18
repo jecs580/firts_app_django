@@ -63,4 +63,4 @@ def list_posts(request):
     # return HttpResponse('<br>'.join(contenido))
 
     # Retornamos render con parametros la request, un archivo template que se crea dentro de la aplicacion y datos la tabla. Nota no es necesario darle la ruta del archivo template puesto que el archivo settings lo buscara por todas las aplicaciones que tiene
-    return(render(request,'feed.html',{'value':posts}))
+    return(render(request,'posts/feed.html',{'value':posts})) # Se agrego el "posts/"" cuando se utiliza templates q se comparte entre apliaciones y no solo el template por aplicacione de django. Si no definiste el template general en los settings y no tienes la carpeta al mismo nivel de las aplicaciones, debes usar los templates por aplicacion.
