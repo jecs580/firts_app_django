@@ -1,6 +1,6 @@
 # Modulo para el manejo de respuestas diferente al HttpResponses
 from django.shortcuts import render
-
+from django.contrib.auth.decorators import login_required
 # Utilidades
 from datetime import datetime
 # posts=[
@@ -52,6 +52,7 @@ posts = [
         'photo': 'https://picsum.photos/500/700/?image=1076',
     }
 ]
+@login_required
 def list_posts(request):
     # contenido=[]
     # for post in posts:
