@@ -57,6 +57,7 @@ MIDDLEWARE = [
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'platzigram.middleware.ProfileCompletionMiddleware',
     ]
     # Define nuestro archivo principal de URL´s
 ROOT_URLCONF = 'platzigram.urls'
@@ -144,7 +145,7 @@ STATICFILES_FINDERS=[
 
 MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 # colocamos la ruta del proyecto, podemos hacerlo con las diagonales pero esto no servira si cambiamos la ruta del proyecto, la solucion es hacerlo de la misma forma que django busa la ruta de la base de datos de sqllite.
-# Esta variable lo que hace es crear un folder con el nombre de le dimos, y adentro tendra crear una ruta igual  ala q creamos donde guardabamos las images (En se almacenaran 2 veces las imagenes una con la  ruta original y la otra para poder verlas desde el admin site)
+# Esta variable lo que hace es crear un folder con el nombre de le dimos, y adentro tendra crear una ruta igual  ala q creamos donde guardabamos las images (En si se  almacenaran 2 veces las imagenes una con la  ruta original y la otra para poder verlas desde el admin site)
 #La variable 'media' es un folder que se creara automaticamente despues de ejecutarlo con runserver
 
 MEDIA_URL= '/media/'

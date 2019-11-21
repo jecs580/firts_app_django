@@ -7,6 +7,35 @@ from django.db.utils import IntegrityError
 #Models
 from django.contrib.auth.models import User
 from users.models import Profile
+
+#Forms
+from users.forms import ProfileForm
+
+def update_profile(request):
+    profile= request.user.profile
+    if request.method =='POST':
+        form = ProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            data=form.cleaned_data
+            profile.website=data['website']
+            profile.biography=data['biography']
+            profile.phone_number=data['phone_number']
+            profile.picture = data['picture']
+            profile.save()
+            # el metodo cleaned_data nos trae un diccionario con campos ya validados.
+            return redirect('update_profile')
+    else:
+        form = ProfileForm()
+
+    
+    return render(request, 'users/update_profile.html',context=
+        {
+        'profile':profile,
+        'user':request.user,
+        'form': form,
+        }
+    )
+    
 def login_view(request):
     """Login view."""
     if request.method == 'POST':
@@ -25,6 +54,8 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
 
 def signup(request):
     if request.method == 'POST':
