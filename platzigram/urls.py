@@ -36,7 +36,8 @@ urlpatterns = [
 
     # Mandamos 2 variables diferentes valores fuera del objeto request, para crear la vista se deben colocar los parametros de entrada del request, name y la edad por separado
     path('hi1/<str:name>/<int:edad>/', local_views.hi),
-    path('posts/',post_views.list_posts,name='feed'),
+    path('',post_views.list_posts,name='feed'),
+    path('posts/new/', post_views.create_post, name='create_post'),
     path('users/login/',users_views.login_view, name='login'),
     path('users/logout/', users_views.logout_view,name='logout'),
     path('users/signup/',users_views.signup,name='signup'),

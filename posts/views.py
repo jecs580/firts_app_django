@@ -1,8 +1,12 @@
 # Modulo para el manejo de respuestas diferente al HttpResponses
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 # Utilidades
 from datetime import datetime
+
+#form
+from posts.forms import PostForm
+from posts.models import Post
 # posts=[
 #     {
 #         'name':'Mont Blac',
@@ -52,6 +56,29 @@ posts = [
         'photo': 'https://picsum.photos/500/700/?image=1076',
     }
 ]
+
+@login_required
+def create_post(request):
+    """Create new post view."""
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('feed')
+
+    else:
+        form = PostForm()
+
+    return render(
+        request=request,
+        template_name='posts/new.html',
+        context={
+            'form': form,
+            'user': request.user,
+            'profile': request.user.profile
+        }
+    )
+
 @login_required
 def list_posts(request):
     # contenido=[]

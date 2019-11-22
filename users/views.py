@@ -10,7 +10,7 @@ from users.models import Profile
 
 #Forms
 from users.forms import ProfileForm
-
+@login_required
 def update_profile(request):
     profile= request.user.profile
     if request.method =='POST':
@@ -25,9 +25,7 @@ def update_profile(request):
             # el metodo cleaned_data nos trae un diccionario con campos ya validados.
             return redirect('update_profile')
     else:
-        form = ProfileForm()
-
-    
+        form = ProfileForm()   
     return render(request, 'users/update_profile.html',context=
         {
         'profile':profile,
