@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from users.models import Profile
 
 #Forms
-from users.forms import ProfileForm
+from users.forms import ProfileForm, SignupForm
 @login_required
 def update_profile(request):
     profile= request.user.profile
@@ -57,20 +57,12 @@ def logout_view(request):
 
 def signup(request):
     if request.method == 'POST':
-        username=request.POST['username']
-        password=request.POST['password']
-        password_confirmation=request.POST['password_confirmation']
-        if password != password_confirmation:
-            return render(request,'users/signup.html',{'error':'No coincide la confirmacion de contaseña'})
-        try:
-            user=User.objects.create_user(username=username,password=password)
-        except IntegrityError:
-            return render(request,'users/signup.html',{'error':'Ya existe la cuenta'})
-        user.first_name=request.POST['first_name']
-        user.last_name=request.POST['last_name']
-        user.email=request.POST['email']
-        user.save()
-        profile = Profile(user=user)
-        profile.save()
-        return redirect('login')
-    return render(request,'users/signup.html')
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save() # Este metodo lo creamos como una nueva funcion que se encargara de guardarlo en la base de datos
+            return redirect('login')
+    else:
+        form= SignupForm()
+    return render(request=request,template_name='users/signup.html',context={
+        'form':form
+    })

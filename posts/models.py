@@ -14,7 +14,7 @@ class Post(models.Model):
     photo=models.ImageField(upload_to='posts/photos')
     created=models.DateField(auto_now_add=True)
     modified=models.DateField(auto_now=True)
-
+#arreglar el datefield por datetimefield
     def __str__(self):
         # Se puede modificar la forma de como nos devolvera las consultas, enviando una cadena 0-0
         return '{} por @{}'.format(self.title, self.user.username)
