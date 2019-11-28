@@ -12,7 +12,7 @@
             <form action="{% url 'update_profile'%}" method="POST" enctype="multipart/form-data">
                 <!-- la ultima propiedad para el form(enctype) se coloca para que podamos enviar diferentes tipos datos, como archivos, etc. -->
                 {% csrf_token %}
-
+                <p>hola,{{ form }} Esto se ve en todo lado</p>
                 <div class="media">
                     {% if profile.picture %}
                     <img src="{{profile.picture.url}}" class="rounded-circle" height="50">

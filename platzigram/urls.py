@@ -13,10 +13,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from platzigram import views as local_views
-from posts import views as post_views
-from users import views as users_views
+from django.urls import path, include
+
+
+
 # Import para hacer el hack de ver las imagenes desde el admin
 from django.conf.urls.static import static
 from django.conf import settings
@@ -29,19 +29,18 @@ from django.conf import settings
 #     return HttpResponse('Hello-wold!')
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello-world/', local_views.hello_world, name='hello_world'),
+    # path('hello-world/', local_views.hello_world, name='hello_world'),
 
     # Con esta vista le mandamos un variable  de tipo GET como parametro que esta dentro del objeto request
-    path('sorted/', local_views.sorted_numbers,name='sort'),
+    # path('sorted/', local_views.sorted_numbers,name='sort'),
 
     # Mandamos 2 variables diferentes valores fuera del objeto request, para crear la vista se deben colocar los parametros de entrada del request, name y la edad por separado
-    path('hi1/<str:name>/<int:edad>/', local_views.hi),
-    path('',post_views.list_posts,name='feed'),
-    path('posts/new/', post_views.create_post, name='create_post'),
-    path('users/login/',users_views.login_view, name='login'),
-    path('users/logout/', users_views.logout_view,name='logout'),
-    path('users/signup/',users_views.signup,name='signup'),
-    path('users/me/profile/', users_views.update_profile, name='update_profile'),
+    # path('hi1/<str:name>/<int:edad>/', local_views.hi),
+
+    path('p/', include(('posts.urls','posts'),namespace='posts')),
+ 
+    path('users/',include(('users.urls','users'),namespace='users')),
+   
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Este es una extension para que podamos ver las imagenes guardadas desde el admin:
 # el Media_Url: indica la path en el caso que fuera un archivo
