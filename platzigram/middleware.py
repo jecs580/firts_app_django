@@ -22,7 +22,7 @@ class ProfileCompletionMiddleware:
                 profile = request.user.profile
                 if not profile.picture or not profile.biography:
                     if request.path not in [reverse('update_profile'), reverse('logout')]:
-                        return redirect('update_profile')
+                        return redirect('users:update')
         
         # Esta linea se cuando el usuariario sea anonimo, osea que no a iniciado sesion o no tiene una cuenta
         response = self.get_response(request)

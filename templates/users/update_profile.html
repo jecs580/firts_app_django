@@ -9,10 +9,9 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-6 p-4" id="profile-box">
-            <form action="{% url 'update_profile'%}" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'users:update'%}" method="POST" enctype="multipart/form-data">
                 <!-- la ultima propiedad para el form(enctype) se coloca para que podamos enviar diferentes tipos datos, como archivos, etc. -->
                 {% csrf_token %}
-                <p>hola,{{ form }} Esto se ve en todo lado</p>
                 <div class="media">
                     {% if profile.picture %}
                     <img src="{{profile.picture.url}}" class="rounded-circle" height="50">

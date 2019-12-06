@@ -4,9 +4,15 @@ from django.contrib.auth.decorators import login_required
 # Utilidades
 from datetime import datetime
 
+# Class View
+from django.views.generic import ListView, DetailView
+
+# Mixins
+from django.contrib.auth.mixins import LoginRequiredMixin
 #form
 from posts.forms import PostForm
 from posts.models import Post
+
 # posts=[
 #     {
 #         'name':'Mont Blac',
@@ -57,6 +63,37 @@ posts = [
     }
 ]
 
+"""TODO detalle de un posts"""
+
+class PostDetailView(LoginRequiredMixin,DetailView):
+    template_name='posts/detail.html'
+    queryset= Post.objects.all()
+    context_object_name='post'
+
+class PostsFeedView(LoginRequiredMixin,ListView):
+    """Retorna todos los posts publicados"""
+    template_name = 'posts/feed.html'
+    model = Post
+    ordering=('-created',)
+    paginate_by = 2
+    context_object_name ='value' #Nombre del valor con el que se recibira en el template(html designado)
+
+# @login_required
+# def list_posts(request):
+#     # contenido=[]
+#     # for post in posts:
+#     #     contenido.append("""
+#     #     <h1><strong>{name}</strong></h1>
+#     #     <p>{user} -<i>{timestamp}</i></p>
+#     #     <figure><img src="{picture}"/></figure>
+#     #     """.format(**post))
+#     # return HttpResponse('<br>'.join(contenido))
+
+#     # Retornamos render con parametros la request, un archivo template que se crea dentro de la aplicacion y datos la tabla. Nota no es necesario darle la ruta del archivo template puesto que el archivo settings lo buscara por todas las aplicaciones que tiene
+#     posts = Post.objects.all().order_by('-created')
+#     return(render(request,'posts/feed.html',{'value':posts})) # Se agrego el "posts/"" cuando se utiliza templates q se comparte entre apliaciones y no solo el template por aplicacione de django. Si no definiste el template general en los settings y no tienes la carpeta al mismo nivel de las aplicaciones, debes usar los templates por aplicacion.
+
+
 @login_required
 def create_post(request):
     """Create new post view."""
@@ -64,7 +101,7 @@ def create_post(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('feed')
+            return redirect('posts:feed')
 
     else:
         form = PostForm()
@@ -79,17 +116,3 @@ def create_post(request):
         }
     )
 
-@login_required
-def list_posts(request):
-    # contenido=[]
-    # for post in posts:
-    #     contenido.append("""
-    #     <h1><strong>{name}</strong></h1>
-    #     <p>{user} -<i>{timestamp}</i></p>
-    #     <figure><img src="{picture}"/></figure>
-    #     """.format(**post))
-    # return HttpResponse('<br>'.join(contenido))
-
-    # Retornamos render con parametros la request, un archivo template que se crea dentro de la aplicacion y datos la tabla. Nota no es necesario darle la ruta del archivo template puesto que el archivo settings lo buscara por todas las aplicaciones que tiene
-    posts = Post.objects.all().order_by('-created')
-    return(render(request,'posts/feed.html',{'value':posts})) # Se agrego el "posts/"" cuando se utiliza templates q se comparte entre apliaciones y no solo el template por aplicacione de django. Si no definiste el template general en los settings y no tienes la carpeta al mismo nivel de las aplicaciones, debes usar los templates por aplicacion.

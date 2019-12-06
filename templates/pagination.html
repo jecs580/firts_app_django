@@ -1,0 +1,23 @@
+<nav>
+    <ul class="pagination justify-content-end">
+        {% if page_obj.has_previous %} <!--Si no es la primera paginacion se mostrara este contenido-->
+        <li class="page-item">
+            <a href="?page={{page_obj.previous_page_number}}" class="page-link"> <!--Esto buscara la paginacion anterior que le corresponde sabiendo el numero de pagina en que se encuentra -->
+                Previous
+            </a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+            <a href="#" class="page-link">
+                {{ page_obj.number }} of {{page_obj.paginator.num_pages }} <!--Nos muestra el numero de pagina en el que estamos y el numero total de paginas-->
+            </a>
+        </li>
+        {% if page_obj.has_next %} <!--Esto buscara si existe una paginacion despues de la actual-->
+        <li class="page-item">
+            <a href="?page={{page_obj.next_page_number }}" class="page-link"> <!--Busca si existe una paginacion siguiente para agregarle un enlace. Esto manda un argumento en la url con la variable "page" esta se igual al numero en que se escogio-->
+                Next
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

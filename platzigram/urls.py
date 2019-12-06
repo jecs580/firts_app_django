@@ -37,9 +37,9 @@ urlpatterns = [
     # Mandamos 2 variables diferentes valores fuera del objeto request, para crear la vista se deben colocar los parametros de entrada del request, name y la edad por separado
     # path('hi1/<str:name>/<int:edad>/', local_views.hi),
 
-    path('p/', include(('posts.urls','posts'),namespace='posts')),
- 
-    path('users/',include(('users.urls','users'),namespace='users')),
+    path('', include(('posts.urls', 'posts'), namespace='posts')),
+    path('users/', include(('users.urls', 'users'), namespace='users')),
+
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Este es una extension para que podamos ver las imagenes guardadas desde el admin:
