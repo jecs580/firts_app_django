@@ -1,11 +1,12 @@
 # Modulo para el manejo de respuestas diferente al HttpResponses
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 # Utilidades
 from datetime import datetime
 
 # Class View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView,CreateView
 
 # Mixins
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -94,26 +95,33 @@ class PostsFeedView(LoginRequiredMixin,ListView):
 #     posts = Post.objects.all().order_by('-created')
 #     return(render(request,'posts/feed.html',{'value':posts})) # Se agrego el "posts/"" cuando se utiliza templates q se comparte entre apliaciones y no solo el template por aplicacione de django. Si no definiste el template general en los settings y no tienes la carpeta al mismo nivel de las aplicaciones, debes usar los templates por aplicacion.
 
-
-@login_required
-def create_post(request):
-    """Create new post view."""
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('posts:feed')
-
-    else:
-        form = PostForm()
-
-    return render(
-        request=request,
-        template_name='posts/new.html',
-        context={
-            'form': form,
-            'user': request.user,
-            'profile': request.user.profile
-        }
-    )
+class CreatePostView(LoginRequiredMixin,CreateView):
+    """Creacion de un nuevo post"""
+    template_name='posts/new.html'
+    form_class= PostForm
+    success_url=reverse_lazy('posts:feed') # Para las vistas basadas en clases es recomendable usar el reverse_lazy para no tener errores (Lo evalua hasta que lo necesite)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user']=self.request.user
+        context['profile']=self.request.user.profile
+        return context
+# @login_required
+# def create_post(request):
+#     """Create new post view."""
+#     if request.method == 'POST':
+#         form = PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('posts:feed')
+#     else:
+#         form = PostForm()
+#     return render(
+#         request=request,
+#         template_name='posts/new.html',
+#         context={
+#             'form': form,
+#             'user': request.user,
+#             'profile': request.user.profile
+#         }
+#     )
 
