@@ -63,19 +63,20 @@ posts = [
     }
 ]
 
-"""TODO detalle de un posts"""
+class PostDetailView(LoginRequiredMixin, DetailView):
+    """Return post detail."""
 
-class PostDetailView(LoginRequiredMixin,DetailView):
-    template_name='posts/detail.html'
-    queryset= Post.objects.all()
-    context_object_name='post'
+    template_name = 'posts/detail.html'
+    slug_url_kwarg='pk'
+    queryset = Post.objects.all() # Hara un query con
+    context_object_name = 'post'
 
 class PostsFeedView(LoginRequiredMixin,ListView):
     """Retorna todos los posts publicados"""
     template_name = 'posts/feed.html'
     model = Post
     ordering=('-created',)
-    paginate_by = 2
+    paginate_by = 30
     context_object_name ='value' #Nombre del valor con el que se recibira en el template(html designado)
 
 # @login_required

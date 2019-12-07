@@ -32,7 +32,6 @@ class UserDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         user= self.get_object()
         # Agregamos al contexto los datos de los posts de cada usuario y lo ordenamos de manera descendente
-
         context['posts']= Post.objects.filter(user=user).order_by('-created')
         return context
 

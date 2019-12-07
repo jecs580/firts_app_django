@@ -1,11 +1,15 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block head_content %}
     <title>Platzigram</title>
-{% endblock head_content %}
+{% endblock%}
+<!DOCTYPE html>
 {% block container %}
-<div class="container">
-    <div class="row">
-        {% include 'post/post_card.html' %}
+
+    <div class="container">
+        <div class="row">
+            {% include "posts/post_card.html" %}
+        </div>
     </div>
-</div>
-{% endblock container %}
+
+{% endblock %}
