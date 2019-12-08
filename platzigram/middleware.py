@@ -21,7 +21,7 @@ class ProfileCompletionMiddleware:
             if not request.user.is_staff:
                 profile = request.user.profile
                 if not profile.picture or not profile.biography:
-                    if request.path not in [reverse('update_profile'), reverse('logout')]:
+                    if request.path not in [reverse('users:update'), reverse('users:logout')]:
                         return redirect('users:update')
         
         # Esta linea se cuando el usuariario sea anonimo, osea que no a iniciado sesion o no tiene una cuenta

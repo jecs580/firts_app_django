@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect,reverse
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
@@ -13,7 +14,7 @@ from posts.models import Post
 from users.forms import ProfileForm, SignupForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView
+from django.views.generic import DetailView,FormView,UpdateView
 
 # cuando colocamos un modulo entre parentesis para una nueva clase signifca que la nueva clase heredara todos los metodos
 
@@ -35,29 +36,54 @@ class UserDetailView(DetailView):
         context['posts']= Post.objects.filter(user=user).order_by('-created')
         return context
 
-@login_required
-def update_profile(request):
-    profile= request.user.profile
-    if request.method =='POST':
-        form = ProfileForm(request.POST,request.FILES)
-        if form.is_valid():
-            data=form.cleaned_data # el metodo cleaned_data nos trae un diccionario con campos ya validados.
-            profile.website=data['website']
-            profile.biography=data['biography']
-            profile.phone_number=data['phone_number']
-            profile.picture = data['picture']
-            profile.save()
-            url=reverse('users:detail',kwargs={'username':request.user.username})
-            return redirect(url)
-    else:
-        form = ProfileForm()   
-    return render(request, 'users/update_profile.html',context=
-        {
-        'profile':profile,
-        'user':request.user,
-        'form': form,
-        }
-    )
+class SignupView(FormView):
+    """Vista para registrar usuarios"""
+    template_name='users/signup.html'
+    form_class=SignupForm
+    success_url=reverse_lazy('users:login')
+    def form_valid(self, form):
+        form.save() # Recien guardamos en la BD
+        return super().form_valid(form)
+
+class UpdateProfileView(LoginRequiredMixin,UpdateView):
+    """Vista para actualizar un perfil"""
+    template_name='users/update_profile.html'
+    model = Profile
+    fields=['website','biography','phone_number','picture']
+    def get_object(self):
+        """Retorna Perfil del usuario"""
+        # Modificamos el objeto para que no nos traiga el user si no el profile, xq esos campos son del profile
+        return self.request.user.profile
+
+    def get_success_url(self):
+        """Retorna al perfil del usuario"""
+        # Esto nos redireccionara al a vista de detail profile, y como requiere un usermane lo mandamos
+        username=self.object.user.username
+        return reverse('users:detail', kwargs={'username':username})
+
+# @login_required
+# def update_profile(request):
+#     profile= request.user.profile
+#     if request.method =='POST':
+#         form = ProfileForm(request.POST,request.FILES)
+#         if form.is_valid():
+#             data=form.cleaned_data # el metodo cleaned_data nos trae un diccionario con campos ya validados.
+#             profile.website=data['website']
+#             profile.biography=data['biography']
+#             profile.phone_number=data['phone_number']
+#             profile.picture = data['picture']
+#             profile.save()
+#             url=reverse('users:detail',kwargs={'username':request.user.username})
+#             return redirect(url)
+#     else:
+#         form = ProfileForm()   
+#     return render(request, 'users/update_profile.html',context=
+#         {
+#         'profile':profile,
+#         'user':request.user,
+#         'form': form,
+#         }
+#     )
     
 def login_view(request):
     """Login view."""
@@ -79,15 +105,14 @@ def logout_view(request):
     return redirect('users:login')
 
 
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save() # Este metodo lo creamos como una nueva funcion que se encargara de guardarlo en la base de datos
-            return redirect('users:login')
-    else:
-        form= SignupForm()
-    return render(request=request,template_name='users/signup.html',
-    context={'form':form}
-    )
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             form.save() # Este metodo lo creamos como una nueva funcion que se encargara de guardarlo en la base de datos
+#             return redirect('users:login')
+#     else:
+#         form= SignupForm()
+#     return render(request=request,template_name='users/signup.html',
+#     context={'form':form}
+#     )
