@@ -3,8 +3,8 @@
 <title>Platzigram Login</title>
 {% endblock head_content %}
 {% block container %}
-    {% if error %}
-        <p class="alert alert-danger">{{error}}</p>
+    {% if form.errors %}
+        <p class="alert alert-danger">'Usuario y contaseña inválidos</p>
     {% endif %}
     <form action="{%url 'users:login' %}" method="post">
         {% csrf_token %}

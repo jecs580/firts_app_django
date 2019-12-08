@@ -3,6 +3,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth import views as auth_views
+
 #Exceptions
 from django.db.utils import IntegrityError
 #Models
@@ -52,7 +54,7 @@ class UpdateProfileView(LoginRequiredMixin,UpdateView):
     fields=['website','biography','phone_number','picture']
     def get_object(self):
         """Retorna Perfil del usuario"""
-        # Modificamos el objeto para que no nos traiga el user si no el profile, xq esos campos son del profile
+        # Especificamos a que modelo hara la actulizacion de los datos,Esto es en el caso de que tengas modelos que deriban de modelos ya definidos en django y que estes usandolos. En este caso como perfil deriba de user, debemos especificar que el modelo a actualizar debe ser profile.
         return self.request.user.profile
 
     def get_success_url(self):
@@ -60,6 +62,10 @@ class UpdateProfileView(LoginRequiredMixin,UpdateView):
         # Esto nos redireccionara al a vista de detail profile, y como requiere un usermane lo mandamos
         username=self.object.user.username
         return reverse('users:detail', kwargs={'username':username})
+
+class LoginView(auth_views.LoginView):
+    """Vista para inision de sesion"""
+    template_name='users/login.html'
 
 # @login_required
 # def update_profile(request):
@@ -85,19 +91,19 @@ class UpdateProfileView(LoginRequiredMixin,UpdateView):
 #         }
 #     )
     
-def login_view(request):
-    """Login view."""
-    if request.method == 'POST':
-        username = request.POST['username']  # El nombre del campo "username" tiene que igual al name de la input correspondiente del html 
-        password = request.POST['password']
+# def login_view(request):
+#     """Login view."""
+#     if request.method == 'POST':
+#         username = request.POST['username']  # El nombre del campo "username" tiene que igual al name de la input correspondiente del html 
+#         password = request.POST['password']
 
-        user=authenticate(request,username=username,password=password) #Esto verificara si existe un user registrado en nuestra base de datos que coincida con los campos de username y password
-        if user:
-            login(request,user)
-            return redirect('posts:feed')
-        else:
-            return render(request,'users/login.html',{'error':'Usuario y contaseña inválidos'})
-    return render(request, 'users/login.html')
+#         user=authenticate(request,username=username,password=password) #Esto verificara si existe un user registrado en nuestra base de datos que coincida con los campos de username y password
+#         if user:
+#             login(request,user)
+#             return redirect('posts:feed')
+#         else:
+#             return render(request,'users/login.html',{'error':'Usuario y contaseña inválidos'})
+#     return render(request, 'users/login.html')
 
 @login_required
 def logout_view(request):
