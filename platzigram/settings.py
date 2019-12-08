@@ -151,4 +151,7 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 MEDIA_URL= '/media/'
 LOGIN_URL='/users/login/'  # Esta variable se usa para cuando utilizas la class "LoginRequiredMixin" o el decorador "@login_required"
 
-LOGIN_REDIRECT_URL='/'
+LOGIN_REDIRECT_URL='/' # Esta variable sirve cuando usas "LoginView" donde si fue correcto el username y el password redireccionara a la ruta q le demos 
+
+LOGOUT_REDIRECT_URL = LOGIN_URL # Esto variable se usa cuando usas vistas basadas en clases para el logut de un sesion, y lo que hace es que redirecciona en el caso de que la sesion se cerro exitosamente.
+

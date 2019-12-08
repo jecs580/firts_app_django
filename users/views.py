@@ -67,6 +67,12 @@ class LoginView(auth_views.LoginView):
     """Vista para inision de sesion"""
     template_name='users/login.html'
 
+class LogoutView(LoginRequiredMixin,auth_views.LogoutView):
+    """Vista para cerrar sesion"""
+    template_name='users/logged_out.html' # Nos inventamos un un nombre de template por que no tenemos un template para esta accion ya que es solo un botton del nav.
+
+"""TODO crear la funcionalidad de like y de follow"""
+
 # @login_required
 # def update_profile(request):
 #     profile= request.user.profile
@@ -105,10 +111,10 @@ class LoginView(auth_views.LoginView):
 #             return render(request,'users/login.html',{'error':'Usuario y contaseña inválidos'})
 #     return render(request, 'users/login.html')
 
-@login_required
-def logout_view(request):
-    logout(request)
-    return redirect('users:login')
+# @login_required
+# def logout_view(request):
+#     logout(request)
+#     return redirect('users:login')
 
 
 # def signup(request):
